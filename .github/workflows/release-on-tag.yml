@@ -29,6 +29,9 @@ jobs:
       - name: Build with Maven and install to local repo
         run: mvn clean install
 
+      - name: Save Ref Version (#.#.#) to GITHUB_ENV
+        run: echo "ref_version=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
       - name: List contents of expected output in .m2 repository
         run: |
           echo "Listing micautils_j8:"
@@ -61,7 +64,7 @@ jobs:
             <dependency>
               <groupId>com.github.Mica-Technologies.micautils_j8</groupId>
               <artifactId>micautils</artifactId>
-              <version>${{ github.ref }}</version>
+              <version>${{ env.ref_version }}</version>
             </dependency>
             ```
 
@@ -70,7 +73,7 @@ jobs:
             <dependency>
               <groupId>com.github.Mica-Technologies.micautils_j8</groupId>
               <artifactId>micautils_manifold</artifactId>
-              <version>${{ github.ref }}</version>
+              <version>${{ env.ref_version }}</version>
             </dependency>
             ```
             Learn more about Manifold at [https://manifold.systems](https://manifold.systems)
