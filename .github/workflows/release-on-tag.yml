@@ -1,0 +1,76 @@
+name: Create Release on Tag
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Build with Maven and install to local repo
+        run: mvn clean install
+
+      - name: List contents of expected output in .m2 repository
+        run: |
+          echo "Listing micautils_j8:"
+          ls -l /home/runner/.m2/repository/com/github/Mica-Technologies/micautils_j8/${GITHUB_REF##*/}
+          echo "Listing micautils:"
+          ls -l /home/runner/.m2/repository/com/github/Mica-Technologies/micautils/${GITHUB_REF##*/}
+          echo "Listing micautils_manifold:"
+          ls -l /home/runner/.m2/repository/com/github/Mica-Technologies/micautils_manifold/${GITHUB_REF##*/}
+
+      - name: Copy artifacts to temporary directory
+        run: |
+          mkdir -p release-artifacts
+          cp ~/.m2/repository/com/github/Mica-Technologies/micautils_j8/${GITHUB_REF##*/}/*.jar release-artifacts/
+          cp ~/.m2/repository/com/github/Mica-Technologies/micautils_j8/${GITHUB_REF##*/}/*.pom release-artifacts/
+          cp ~/.m2/repository/com/github/Mica-Technologies/micautils/${GITHUB_REF##*/}/*.jar release-artifacts/
+          cp ~/.m2/repository/com/github/Mica-Technologies/micautils/${GITHUB_REF##*/}/*.pom release-artifacts/
+          cp ~/.m2/repository/com/github/Mica-Technologies/micautils_manifold/${GITHUB_REF##*/}/*.jar release-artifacts/
+          cp ~/.m2/repository/com/github/Mica-Technologies/micautils_manifold/${GITHUB_REF##*/}/*.pom release-artifacts/
+
+
+      - name: Create GitHub Release and upload artifacts
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: release-artifacts/*
+          body: |
+            ### Main Module (via JitPack)
+            ```
+            <dependency>
+              <groupId>com.github.Mica-Technologies.micautils_j8</groupId>
+              <artifactId>micautils</artifactId>
+              <version>${{ github.ref }}</version>
+            </dependency>
+            ```
+
+            ### Manifold-enabled Module (via JitPack)
+            ```
+            <dependency>
+              <groupId>com.github.Mica-Technologies.micautils_j8</groupId>
+              <artifactId>micautils_manifold</artifactId>
+              <version>${{ github.ref }}</version>
+            </dependency>
+            ```
+            Learn more about Manifold at [https://manifold.systems](https://manifold.systems)
