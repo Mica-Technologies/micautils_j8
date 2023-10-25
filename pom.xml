@@ -1,0 +1,101 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.github.Mica-Technologies</groupId>
+  <artifactId>micautils_j8</artifactId>
+  <version>${revision}</version>
+  <packaging>pom</packaging>
+  <name>micautils_j8</name>
+  <url>https://micatechnologies.com</url>
+
+  <properties>
+    <!-- MICA UTILS VERSION -->
+    <revision>0.0.1</revision>
+
+    <!-- MAIN MODULE JUNIT DEPENDENCY VERSION -->
+    <junit.jupiter.version>5.7.2</junit.jupiter.version>
+
+    <!-- MANIFOLD MODULE DEPENDENCY VERSION -->
+    <manifold.version>2023.1.29</manifold.version>
+
+    <!-- DO NOT CHANGE BELOW THIS LINE -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
+    <maven.compiler.version>3.11.0</maven.compiler.version>
+    <maven.source.plugin.version>3.3.0</maven.source.plugin.version>
+    <maven.javadoc.plugin.version>3.6.0</maven.javadoc.plugin.version>
+  </properties>
+
+  <modules>
+    <module>micautils</module>
+    <module>micautils_manifold</module>
+  </modules>
+
+  <build>
+    <!-- Configure Javadoc jar to be aggregated (parent-only) -->
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${maven.javadoc.plugin.version}</version>
+          <inherited>false</inherited>
+          <executions>
+            <execution>
+              <id>aggregate</id>
+              <goals>
+                <goal>aggregate-jar</goal>
+              </goals>
+              <phase>package</phase>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <!-- Configure the Maven Compiler Plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven.compiler.version}</version>
+        <configuration>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
+        </configuration>
+      </plugin>
+
+      <!-- Create sources.jar -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>${maven.source.plugin.version}</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Create javadoc.jar -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven.javadoc.plugin.version}</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

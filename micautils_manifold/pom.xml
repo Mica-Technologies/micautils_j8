@@ -1,0 +1,56 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.github.Mica-Technologies</groupId>
+    <artifactId>micautils_j8</artifactId>
+    <version>${revision}</version>
+  </parent>
+
+  <artifactId>micautils_manifold</artifactId>
+  <version>${revision}</version>
+  <name>micautils_manifest</name>
+  <url>https://micatechnologies.com</url>
+
+  <dependencies>
+    <!-- Main module dependency -->
+    <dependency>
+      <groupId>com.github.Mica-Technologies</groupId>
+      <artifactId>micautils</artifactId>
+      <version>${revision}</version>
+    </dependency>
+
+    <!-- Manifold dependency -->
+    <dependency>
+      <groupId>systems.manifold</groupId>
+      <artifactId>manifold-ext</artifactId>
+      <version>${manifold.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Configure the Maven Compiler Plugin to use Manifold -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven.compiler.version}</version>
+        <configuration>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
+          <compilerArgs>
+            <arg>-Xplugin:Manifold</arg>
+          </compilerArgs>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>systems.manifold</groupId>
+              <artifactId>manifold-ext</artifactId>
+              <version>${manifold.version}</version>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
