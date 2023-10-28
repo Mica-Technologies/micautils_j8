@@ -3,6 +3,8 @@ package com.micatechnologies.micautils_j8.data;
 import com.micatechnologies.micautils_j8.types.ByteBased;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.Stack;
 
 /**
  * A trie data structure that uses bytes as keys, allowing for efficient storage and retrieval of
@@ -11,10 +13,10 @@ import java.util.Collections;
  *
  * @param <T> the type of values stored in the trie
  *
- * @version 1.0.0
+ * @version 1.0.1
  * @since 1.0.0
  */
-public class ByteBasedTrie<T> {
+public class ByteBasedTrie<T> implements Iterable<T> {
 
   /**
    * The root node of the trie.
@@ -119,6 +121,18 @@ public class ByteBasedTrie<T> {
   }
 
   /**
+   * Returns an iterator over elements in the {@link ByteBasedTrie} of type {@code T}.
+   *
+   * @return an Iterator over elements of type {@code T} in the {@link ByteBasedTrie}
+   *
+   * @since 1.0.1
+   */
+  @Override
+  public Iterator<T> iterator() {
+    return new TrieIterator();
+  }
+
+  /**
    * Represents a node in the {@link ByteBasedTrie}. Each node can have up to 256
    * ({@code Byte.MAX_VALUE - Byte.MIN_VALUE + 1}) children, one for each possible byte value. The
    * node also stores a value, which is the value associated with the key represented by the path
@@ -164,6 +178,102 @@ public class ByteBasedTrie<T> {
         }
       }
       return true;
+    }
+  }
+
+  /**
+   * An iterator for the {@link ByteBasedTrie} that traverses the trie in a depth-first manner,
+   * visiting each node that has a value.
+   *
+   * @version 1.0.0
+   * @since 1.0.1
+   */
+  private class TrieIterator implements Iterator<T> {
+
+    /**
+     * A stack used to facilitate depth-first traversal of the trie.
+     *
+     * @since 1.0.0
+     */
+    private final Stack<Node> stack = new Stack<>();
+
+    /**
+     * The next value to be returned by the iterator. This is pre-fetched to allow the
+     * {@link #hasNext()} method to determine if there are more values to iterate over.
+     *
+     * @since 1.0.0
+     */
+    private T nextValue;
+
+    /**
+     * Constructs a new {@link TrieIterator}, initializing the traversal starting from the root of
+     * the trie.
+     *
+     * @since 1.0.0
+     */
+    public TrieIterator() {
+      pushNodes(root);
+      findNext();
+    }
+
+    /**
+     * Pushes the children of the given node onto the stack, facilitating depth-first traversal.
+     *
+     * @param node the node whose children are to be pushed onto the stack
+     *
+     * @since 1.0.0
+     */
+    private void pushNodes(Node node) {
+      for (Node child : node.children) {
+        if (child != null) {
+          stack.push(child);
+        }
+      }
+    }
+
+    /**
+     * Finds the next value in the trie that the iterator will return. This method updates the
+     * {@link #nextValue} field with the next value, or sets it to {@code null} if there are no more
+     * values.
+     *
+     * @since 1.0.0
+     */
+    private void findNext() {
+      nextValue = null;
+      while (!stack.isEmpty()) {
+        Node currentNode = stack.pop();
+        if (currentNode.value != null) {
+          nextValue = currentNode.value;
+          break;
+        }
+        pushNodes(currentNode);
+      }
+    }
+
+    /**
+     * Determines if the iterator has more values to return.
+     *
+     * @return {@code true} if there are more values to return, {@code false} otherwise
+     *
+     * @since 1.0.0
+     */
+    @Override
+    public boolean hasNext() {
+      return nextValue != null;
+    }
+
+    /**
+     * Returns the next value in the iteration.
+     *
+     * @return the next value
+     *
+     * @since 1.0.0
+     */
+    @Override
+    public T next() {
+      T currentValue = nextValue;
+      findNext();
+      return currentValue;
     }
   }
 
