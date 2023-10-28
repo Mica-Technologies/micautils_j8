@@ -5,12 +5,12 @@
   <parent>
     <groupId>com.github.Mica-Technologies</groupId>
     <artifactId>micautils_j8</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
   </parent>
 
   <groupId>com.github.Mica-Technologies</groupId>
   <artifactId>micautils</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <name>micautils</name>
   <url>https://micatechnologies.com</url>
 
