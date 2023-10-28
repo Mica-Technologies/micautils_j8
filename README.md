@@ -2,6 +2,8 @@
 
 A utility library for Java 8, provided by Mica Technologies.
 
+[![](https://jitpack.io/v/Mica-Technologies/micautils_j8.svg)](https://jitpack.io/#Mica-Technologies/micautils_j8)
+
 ## Modules
 
 - **micautils**: [Main module containing Mica Utils for Java 8+]
