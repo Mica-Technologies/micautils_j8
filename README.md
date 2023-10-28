@@ -33,6 +33,9 @@ your `pom.xml` file:
 </repositories>
 ```
 
+For additional details, or information on how to install the library with other build tools, such as
+Gradle or sbt, please see the [JitPack](https://jitpack.io/p/Mica-Technologies/micautils_j8/ page.
+
 #### Main Module: micautils
 
 To use the main utility module, add the following dependency:
