@@ -5,15 +5,12 @@
 
   <groupId>com.github.Mica-Technologies</groupId>
   <artifactId>micautils_j8</artifactId>
-  <version>${revision}</version>
+  <version>1.0.0</version>
   <packaging>pom</packaging>
   <name>micautils_j8</name>
   <url>https://micatechnologies.com</url>
 
   <properties>
-    <!-- MICA UTILS VERSION -->
-    <revision>0.0.3</revision>
-
     <!-- MAIN MODULE JUNIT DEPENDENCY VERSION -->
     <junit.jupiter.version>5.7.2</junit.jupiter.version>
 

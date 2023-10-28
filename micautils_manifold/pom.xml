@@ -5,12 +5,12 @@
   <parent>
     <groupId>com.github.Mica-Technologies</groupId>
     <artifactId>micautils_j8</artifactId>
-    <version>${revision}</version>
+    <version>1.0.0</version>
   </parent>
 
   <groupId>com.github.Mica-Technologies</groupId>
   <artifactId>micautils_manifold</artifactId>
-  <version>${revision}</version>
+  <version>1.0.0</version>
   <name>micautils_manifest</name>
   <url>https://micatechnologies.com</url>
 
@@ -19,7 +19,7 @@
     <dependency>
       <groupId>com.github.Mica-Technologies</groupId>
       <artifactId>micautils</artifactId>
-      <version>${revision}</version>
+      <version>1.0.0</version>
     </dependency>
 
     <!-- Manifold dependency -->
