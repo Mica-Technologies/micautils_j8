@@ -8,6 +8,7 @@
     <version>${revision}</version>
   </parent>
 
+  <groupId>com.github.Mica-Technologies</groupId>
   <artifactId>micautils</artifactId>
   <version>${revision}</version>
   <name>micautils</name>
